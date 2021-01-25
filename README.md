@@ -28,4 +28,4 @@ https://legacydocs.hubspot.com/docs/methods/forms/forms_overview
 https://legacydocs.hubspot.com/docs/methods/forms/submit_form
 
 ## Background
-Based on the standard 'Create React App' template (see [Create React App ReadMe](README_ReactApp.md).
+Based on the standard 'Create React App' template (see [Create React App ReadMe](README_ReactApp.md)).
