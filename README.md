@@ -1,7 +1,7 @@
 # Simple Hubspot Form Submission
 This is a basic example of how to submit data to a Hubspot form.
 
-##Requirements
+## Requirements
 1. A hubspot account.
 2. Create a marketing form in said hubspot account.
 3. Account's Portal ID
@@ -25,6 +25,12 @@ https://knowledge.hubspot.com/forms/create-forms
 https://knowledge.hubspot.com/forms/find-your-form-guid
 https://legacydocs.hubspot.com/docs/methods/forms/forms_overview
 https://legacydocs.hubspot.com/docs/methods/forms/submit_form
+
+
+    
+----------------
+
+
 
 
 # Getting Started with Create React App
