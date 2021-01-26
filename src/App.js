@@ -14,7 +14,6 @@ class App extends Component {
       error: false
     }
 
-    //this.email = React.createRef();
     this.name = React.createRef();
     this.surname = React.createRef();
     this.email = React.createRef();
@@ -35,68 +34,71 @@ class App extends Component {
 
     // user information to be submitted: note that these 'name' values must be created in a form in hubspot for this to work, and the
     // form should have the GUID set in config object (see env.js)
-    data.fields = [{
-      'name': 'email',
-      'value': this.email.current.value
-     },
-     {
-      'name': 'firstname',
-      'value': this.name.current.value
-     },
-     {
-      'name': 'lastname',
-      'value': this.surname.current.value
-     },
-     {
-      'name': 'company',
-      'value': this.company.current.value
-     },
-     {
-      'name': 'phone',
-      'value': this.phone.current.value
-     }];
+    data.fields = [
+      {
+        'name': 'email',
+        'value': this.email.current.value
+      },
+      {
+        'name': 'firstname',
+        'value': this.name.current.value
+      },
+      {
+        'name': 'lastname',
+        'value': this.surname.current.value
+      },
+      {
+        'name': 'company',
+        'value': this.company.current.value
+      },
+      {
+        'name': 'phone',
+        'value': this.phone.current.value
+      }
+    ];
 
-     // additional information about where the data is coming from
-     data.context = {
+    // additional information about where the data is coming from
+    data.context = {
       'pageUri': 'localhost',
       'pageName': 'Test Form',
       //'hutk': ''            // include this parameter and set it to the hubspotutk cookie value to enable cookie tracking on your submission
-     };
+    };
 
+    // build URL for the api endpoint to post to.
+    let postUrl = config.hubspotEndpoint + config.hubspotAccountId + '/' + config.hubspotFormId;
 
-     // build URL for the api endpoint to post to.
-     let postUrl = config.hubspotEndpoint + config.hubspotAccountId + '/' + config.hubspotFormId;
+    // build package to submit
+    let req = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    }
 
+    console.info("Sending POST to '"+ postUrl +"'.");
 
-     let req = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-     }
+    fetch(postUrl, req).then(async response => {
+      const resp = await response.json();
 
-     fetch(postUrl, req).then(async response => {
-        const resp = await response.json();
-
-        if(!response.ok) {
-          const error = (resp && resp.message) || response.status;
-          return Promise.reject(error);
-        } else {
-          this.setState({
-            message: 'Submitted successfully',
-            error: false
-          });
-        }
-
-        console.log(resp);
-     }).catch(error => {
-        console.warn("Error!!!!");
-        console.warn(error.toString());
-
+      if(!response.ok) {
+        const error = (resp && resp.message) || response.status;
+        
+        return Promise.reject(error);
+      } else {
         this.setState({
-            message: 'Failed to submit',
-            error: true
+          message: 'Submitted successfully',
+          error: false
         });
-     });
+      }
+
+    }).catch(error => {
+      console.warn("Error!!!! POST failed.");
+      console.warn(error.toString());
+
+      this.setState({
+        message: 'Failed to submit. See dev console.',
+        error: true
+      });
+    });
   }
 
   render() {
